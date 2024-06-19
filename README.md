@@ -15,5 +15,6 @@ This is a simple C# console application that monitors changes in a specified tex
 ```sh
 dotnet add package dotenv.net
 dotnet add package DiffMatchPatch
+dotnet add package Microsoft.Extensions.DependencyInjection
 
 ```

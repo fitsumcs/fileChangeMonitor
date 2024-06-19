@@ -1,7 +1,6 @@
 using dotenv.net;
 
-
-public class ConfigurationManager
+public class ConfigurationManager : IConfigurationManager
 {
     private string targetFilePath;
 

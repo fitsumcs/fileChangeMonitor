@@ -1,18 +1,22 @@
 using System.Timers;
 using DiffMatchPatch;
 
-public class FileMonitor
+public class FileMonitor : IFileMonitor
 {
     private string lastFileContent;
     private System.Timers.Timer timer;
     private string targetFilePath;
 
-    public FileMonitor(string filePath)
+    public FileMonitor(IConfigurationManager configManager)
     {
-        targetFilePath = filePath;
+        targetFilePath =  configManager.GetTargetFilePath();
         lastFileContent = File.ReadAllText(targetFilePath);
         timer = new System.Timers.Timer(15000); // 15 seconds
         timer.Elapsed += CheckFileChanges;
+    }
+
+    public void StartMonitoring()
+    {
         timer.Start();
     }
 
@@ -59,3 +63,4 @@ public class FileMonitor
         Console.WriteLine();
     }
 }
+

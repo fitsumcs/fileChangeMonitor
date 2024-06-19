@@ -1,11 +1,22 @@
-﻿class Program
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
+
+public class Program
 {
     static void Main(string[] args)
     {
-        ConfigurationManager configManager = new ConfigurationManager();
-        string targetFilePath = configManager.GetTargetFilePath();
+        // Setup DI container
+        var serviceProvider = new ServiceCollection()
+            .AddTransient<IConfigurationManager, ConfigurationManager>()
+            .AddTransient<IFileMonitor, FileMonitor>()
+            .BuildServiceProvider();
 
-        FileMonitor fileMonitor = new FileMonitor(targetFilePath);
+        // Resolve dependencies
+        var configManager = serviceProvider.GetRequiredService<IConfigurationManager>();
+        var fileMonitor = serviceProvider.GetRequiredService<IFileMonitor>();
+
+        // Start monitoring
+        fileMonitor.StartMonitoring();
 
         Console.WriteLine("Monitoring file changes. Press Enter to exit.");
         Console.ReadLine();
